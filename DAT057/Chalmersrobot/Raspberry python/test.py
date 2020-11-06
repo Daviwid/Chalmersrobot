@@ -1,1 +1,1 @@
-print("Oscartestar")
+print("Oscar")
