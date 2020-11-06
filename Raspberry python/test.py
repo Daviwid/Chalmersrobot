@@ -1,1 +1,1 @@
-print("nykter")
+print("nyktertre")
