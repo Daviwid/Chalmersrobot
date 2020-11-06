@@ -1,1 +1,1 @@
-print("nyktertre")
+print("rask ask")
