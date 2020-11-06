@@ -1,1 +1,1 @@
-print("chalmers")
+print("nykter")
