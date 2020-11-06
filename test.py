@@ -1,1 +1,1 @@
-print("hejsansvejsan")
+print("hej")
