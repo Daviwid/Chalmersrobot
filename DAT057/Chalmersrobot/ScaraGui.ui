@@ -1702,22 +1702,6 @@ background-color: rgb(249, 249, 249);</string>
     <string/>
    </property>
   </widget>
-  <widget class="QGraphicsView" name="graphicsView_2">
-   <property name="geometry">
-    <rect>
-     <x>1160</x>
-     <y>10</y>
-     <width>561</width>
-     <height>701</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">border-image: url(:/images/kungen.png);</string>
-   </property>
-   <property name="dragMode">
-    <enum>QGraphicsView::RubberBandDrag</enum>
-   </property>
-  </widget>
   <widget class="QPushButton" name="btnStartAll">
    <property name="geometry">
     <rect>
@@ -1733,6 +1717,22 @@ font: 22pt &quot;MS Shell Dlg 2&quot;;</string>
    </property>
    <property name="text">
     <string>Start</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelVideo">
+   <property name="geometry">
+    <rect>
+     <x>1150</x>
+     <y>20</y>
+     <width>631</width>
+     <height>671</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string/>
    </property>
   </widget>
  </widget>

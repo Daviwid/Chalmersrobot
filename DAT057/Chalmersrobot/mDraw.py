@@ -15,16 +15,34 @@ import WireHelper
 import WireGui
 import WireGui_XY
 
+
 from PyQt5.QtGui import*
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from ScaraGui import *
 from RobotUtils import *
+import cv2
 
 import time
 import math
 
 robotVersion="1.15 2015-7-15"
+
+class Thread(QThread):
+    changePixmap = pyqtSignal(QImage)
+
+    def run(self):
+        cap = cv2.VideoCapture(0)
+        while True:
+            ret, frame = cap.read()
+            if ret:
+                rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                h, w, ch = rgbImage.shape
+                bytesPerLine = ch * w
+                convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
+                p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
+                self.changePixmap.emit(p)
+
 
 class MainUI(QWidget):
     sceneUpdateSig = pyqtSignal()
@@ -46,6 +64,10 @@ class MainUI(QWidget):
         self.picHeight = 0
         self.initUI()
         
+    @pyqtSlot(QImage)
+    def setImage(self, image):
+        self.ui.labelVideo.setPixmap(QPixmap.fromImage(image))
+ 
     def initUI(self):
         self.ui = Ui_Form()
         self.ui.setupUi(self)
@@ -92,13 +114,18 @@ class MainUI(QWidget):
         self.ui.robotCombo.currentIndexChanged.connect(self.tabChanged)
         
         # init scene
+        
+        th = Thread(self)
+        th.changePixmap.connect(self.setImage)
+        th.start() #gjort själv
+
         rect = QRectF( self.ui.graphicsView.rect())
         self.scene = QGraphicsScene(rect)
         item = QGraphicsEllipseItem(75, 10, 60, 40)
         self.ui.graphicsView.setScene(self.scene)
         self.ui.labelEstTime.setVisible(False)
         self.ui.progressBar.setVisible(False)
-        self.ui.graphicsView_2.setVisible(False) #gjort själv
+        self.ui.labelVideo.setVisible(True)
         self.ui.labelPic.setVisible(False)
         self.ui.pushButton.clicked.connect(self.linkToFAQ)
         #fix the 1 pix margin of graphic view
@@ -137,7 +164,6 @@ class MainUI(QWidget):
         if not self.robot.printing:
             self.ui.progressBar.setValue(0)
             self.robot.printPic()
-            self.ui.graphicsView_2.setVisible(True) #gjort själv
             self.ui.progressBar.setVisible(True)
             """ todo: add precise time estimation """
             #self.ui.labelEstTime.setVisible(True)
@@ -728,6 +754,8 @@ class MainUI(QWidget):
             self.wireHelp =  WireHelper.WireHelper(WireGui_XY.Ui_Form)
         else:
             self.wireHelp =  WireHelper.WireHelper(WireGui.Ui_Form)
+
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
