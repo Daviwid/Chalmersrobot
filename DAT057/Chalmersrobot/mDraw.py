@@ -30,16 +30,34 @@ robotVersion="1.15 2015-7-15"
 
 class Thread(QThread):
     changePixmap = pyqtSignal(QImage)
-
+    
     def run(self):
         cap = cv2.VideoCapture(0)
+        face_cascade = cv2.CascadeClassifier("mDrawGui\Cascades\data\haarcascade_frontalface_alt2.xml")
         while True:
             ret, frame = cap.read()
             if ret:
                 rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                h, w, ch = rgbImage.shape
-                bytesPerLine = ch * w
-                convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
+                faces = face_cascade.detectMultiScale(rgbImage, scaleFactor=1.5, minNeighbors=5)
+                h1, w1, ch1 = rgbImage.shape
+                bytesPerLine = ch1 * w1
+                
+                for (x, y, w, h) in faces:
+                    #Region of intrest = coordinates around the face
+                    roi_gray = rgbImage[(y-60):(y)+(h+40), (x-20):x+(w+20)]
+                    #Color = blue
+                    #Thickness
+                    
+                    #X + W line = from X coordinate plus the pixels to the W 
+                    end_cord_x = x + w
+                    #Y + H line = from Y coordinate plus the pixels to the H 
+                    end_cord_y = (y) + (h + 40)
+                    #Draw a rectangle around the faces
+                    color = (0, 0, 255)
+                    stroke = 2    
+                    cv2.rectangle(rgbImage, (x, y-60), (end_cord_x, end_cord_y), color, stroke)
+
+                convertToQtFormat = QImage(rgbImage.data, w1, h1, bytesPerLine, QImage.Format_RGB888)
                 p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
                 self.changePixmap.emit(p)
 
@@ -127,10 +145,12 @@ class MainUI(QWidget):
         self.ui.progressBar.setVisible(False)
         self.ui.labelVideo.setVisible(True)
         self.ui.labelPic.setVisible(False)
+        self.ui.btnPrintPic.setVisible(False)
+        self.ui.btnHelp.setVisible(False)
         self.ui.pushButton.clicked.connect(self.linkToFAQ)
         #fix the 1 pix margin of graphic view
-        rcontent = self.ui.graphicsView.contentsRect();
-        self.ui.graphicsView.setSceneRect(0, 0, rcontent.width(), rcontent.height());
+        rcontent = self.ui.graphicsView.contentsRect()
+        self.ui.graphicsView.setSceneRect(0, 0, rcontent.width(), rcontent.height())
         
         # mouse movement
         self.ui.graphicsView.mousePressEvent = self.graphMouseClick
@@ -184,6 +204,7 @@ class MainUI(QWidget):
             self.ui.progressBar.setVisible(False)
             self.ui.labelEstTime.setVisible(False)
             self.switchPrintButton("Go")
+            
     
     def switchPrintButton(self,s):
         if s=="Go":
@@ -237,7 +258,7 @@ class MainUI(QWidget):
         y = -float(strY)
         pos = QtCore.QPointF(x,y)
         self.robot.moveTo(pos,True)
-            
+
     def graphMouseRelease(self,event):
         #self.userPaint.lineTo(event.pos())
         #self.pathptr.setPath(self.userPaint)
