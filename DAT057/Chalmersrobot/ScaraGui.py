@@ -37,7 +37,7 @@ class Ui_Form(object):
         self.graphicsView.setStyleSheet("background-color: rgb(249, 249, 249);")
         self.graphicsView.setObjectName("graphicsView")
         self.btnLoadPic = QtWidgets.QPushButton(Form)
-        self.btnLoadPic.setGeometry(QtCore.QRect(20, 20, 60, 40))
+        self.btnLoadPic.setGeometry(QtCore.QRect(40, 760, 60, 40))
         self.btnLoadPic.setStyleSheet(" QPushButton {\n"
 "    border-image: url(:/images/scara-UI-LoadPic_normal.png) 0;\n"
 " }\n"
@@ -51,7 +51,7 @@ class Ui_Form(object):
         self.btnLoadPic.setText("")
         self.btnLoadPic.setObjectName("btnLoadPic")
         self.btnPrintPic = QtWidgets.QPushButton(Form)
-        self.btnPrintPic.setGeometry(QtCore.QRect(160, 20, 96, 40))
+        self.btnPrintPic.setGeometry(QtCore.QRect(970, 170, 96, 40))
         self.btnPrintPic.setStyleSheet(" QPushButton {\n"
 "    border-image:url(:/images/scara-UI-Start-normal.png) 0;\n"
 " }\n"
@@ -67,7 +67,7 @@ class Ui_Form(object):
 "")
         self.btnPrintPic.setObjectName("btnPrintPic")
         self.btnClearPic = QtWidgets.QPushButton(Form)
-        self.btnClearPic.setGeometry(QtCore.QRect(90, 20, 60, 40))
+        self.btnClearPic.setGeometry(QtCore.QRect(40, 830, 60, 40))
         self.btnClearPic.setStyleSheet(" QPushButton {\n"
 "    border-image: url(:/images/scara-UI-ClearPic_normal.png) 0;\n"
 " }\n"
@@ -82,7 +82,7 @@ class Ui_Form(object):
         self.btnClearPic.setText("")
         self.btnClearPic.setObjectName("btnClearPic")
         self.btnStop = QtWidgets.QPushButton(Form)
-        self.btnStop.setGeometry(QtCore.QRect(270, 20, 60, 40))
+        self.btnStop.setGeometry(QtCore.QRect(920, 990, 60, 40))
         self.btnStop.setStyleSheet(" QPushButton {\n"
 "    background-color: rgb(249, 249, 0);\n"
 "    border-image: url(:/images/scara-UI-Stop-normal.png) 0;\n"
@@ -421,7 +421,7 @@ class Ui_Form(object):
         self.btnSetRobot.setIconSize(QtCore.QSize(24, 24))
         self.btnSetRobot.setObjectName("btnSetRobot")
         self.btnHome = QtWidgets.QPushButton(Form)
-        self.btnHome.setGeometry(QtCore.QRect(690, 20, 61, 41))
+        self.btnHome.setGeometry(QtCore.QRect(920, 740, 61, 41))
         self.btnHome.setStyleSheet(" QPushButton {\n"
 "    border-image: url(:/images/scara-UI-home-normal.png) 0;\n"
 " }\n"
@@ -848,7 +848,7 @@ class Ui_Form(object):
 "background-color: rgb(249, 249, 249);")
         self.labelMachineState.setObjectName("labelMachineState")
         self.btnHFlip = QtWidgets.QPushButton(Form)
-        self.btnHFlip.setGeometry(QtCore.QRect(340, 20, 60, 40))
+        self.btnHFlip.setGeometry(QtCore.QRect(1150, 930, 60, 40))
         self.btnHFlip.setStyleSheet(" QPushButton {\n"
 "    background-color: rgb(249, 249, 249);\n"
 "    border-image:url(:/images/mDraw_UI-icon-VSymmetric.png) 0;\n"
@@ -868,7 +868,7 @@ class Ui_Form(object):
         self.btnHFlip.setText("")
         self.btnHFlip.setObjectName("btnHFlip")
         self.btnVFlip = QtWidgets.QPushButton(Form)
-        self.btnVFlip.setGeometry(QtCore.QRect(410, 20, 60, 40))
+        self.btnVFlip.setGeometry(QtCore.QRect(700, 930, 60, 40))
         self.btnVFlip.setStyleSheet(" QPushButton {\n"
 "    background-color: rgb(249, 249, 249);\n"
 "    border-image:url(:/images/mDraw_UI-icon-HSymmetric.png) 0;\n"
@@ -888,7 +888,7 @@ class Ui_Form(object):
         self.btnVFlip.setText("")
         self.btnVFlip.setObjectName("btnVFlip")
         self.btnRollC = QtWidgets.QPushButton(Form)
-        self.btnRollC.setGeometry(QtCore.QRect(480, 20, 60, 40))
+        self.btnRollC.setGeometry(QtCore.QRect(1150, 790, 60, 40))
         self.btnRollC.setStyleSheet(" QPushButton {\n"
 "    background-color: rgb(249, 249, 249);\n"
 "    border-image:url(:/images/mDraw_UI-icon-clockwise-rotation.png) 0;\n"
@@ -908,7 +908,7 @@ class Ui_Form(object):
         self.btnRollC.setText("")
         self.btnRollC.setObjectName("btnRollC")
         self.btnRollAC = QtWidgets.QPushButton(Form)
-        self.btnRollAC.setGeometry(QtCore.QRect(550, 20, 60, 40))
+        self.btnRollAC.setGeometry(QtCore.QRect(700, 790, 60, 40))
         self.btnRollAC.setStyleSheet(" QPushButton {\n"
 "    background-color: rgb(249, 249, 249);\n"
 "    border-image:url(:/images/mDraw_UI-icon-anticlockwise-rotation.png) 0;\n"
@@ -928,7 +928,7 @@ class Ui_Form(object):
         self.btnRollAC.setText("")
         self.btnRollAC.setObjectName("btnRollAC")
         self.btnHelp = QtWidgets.QPushButton(Form)
-        self.btnHelp.setGeometry(QtCore.QRect(620, 20, 60, 40))
+        self.btnHelp.setGeometry(QtCore.QRect(970, 110, 60, 40))
         self.btnHelp.setStyleSheet(" QPushButton {\n"
 "    background-color: rgb(249, 249, 249);\n"
 "    border-image:url(:/images/mDraw_UI-icon-help_info.png) 0;\n"
@@ -947,16 +947,17 @@ class Ui_Form(object):
 "")
         self.btnHelp.setText("")
         self.btnHelp.setObjectName("btnHelp")
-        self.graphicsView_2 = QtWidgets.QGraphicsView(Form)
-        self.graphicsView_2.setGeometry(QtCore.QRect(1160, 10, 561, 701))
-        self.graphicsView_2.setStyleSheet("border-image: url(:/images/kungen.png);")
-        self.graphicsView_2.setDragMode(QtWidgets.QGraphicsView.RubberBandDrag)
-        self.graphicsView_2.setObjectName("graphicsView_2")
         self.btnStartAll = QtWidgets.QPushButton(Form)
-        self.btnStartAll.setGeometry(QtCore.QRect(650, 760, 481, 191))
-        self.btnStartAll.setStyleSheet("background-color: rgb(60, 203, 16);\n"
-"font: 22pt \"MS Shell Dlg 2\";")
+        self.btnStartAll.setGeometry(QtCore.QRect(780, 790, 351, 181))
+        self.btnStartAll.setStyleSheet("background-image: url(:/images/playBTN.png);\n"
+"")
+        self.btnStartAll.setText("")
         self.btnStartAll.setObjectName("btnStartAll")
+        self.labelVideo = QtWidgets.QLabel(Form)
+        self.labelVideo.setGeometry(QtCore.QRect(1150, 20, 631, 671))
+        self.labelVideo.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.labelVideo.setText("")
+        self.labelVideo.setObjectName("labelVideo")
 
         self.retranslateUi(Form)
         self.tabWidget.setCurrentIndex(0)
@@ -996,5 +997,4 @@ class Ui_Form(object):
         self.label_6.setText(_translate("Form", "height"))
         self.labelEstTime.setText(_translate("Form", "Time Left: 00:00:00"))
         self.labelMachineState.setText(_translate("Form", "IDLE"))
-        self.btnStartAll.setText(_translate("Form", "Start"))
 import images_rc
