@@ -30,21 +30,40 @@ robotVersion="1.15 2015-7-15"
 
 class Thread(QThread):
     changePixmap = pyqtSignal(QImage)
-    
+
+    def Convert(self, sketch):
+        #Read the image which will be in gray already
+        img = cv2.imread('portrait.png')
+        #Invert the grayscaled image
+        inv_gray_image = 255 - img
+        #Blurr the image
+        Blurred_image = cv2.GaussianBlur(inv_gray_image,(21,21),0)
+        #Invert the blurred image
+        inv_blur = 255 - Blurred_image
+        #Divide the original gray image with the inverted blurred image and put in a variable
+        sketch = cv2.divide(img, inv_blur, scale=256)
+        #Return the variable
+        return sketch
+
     def run(self):
         cap = cv2.VideoCapture(0)
         face_cascade = cv2.CascadeClassifier("mDrawGui\Cascades\data\haarcascade_frontalface_alt2.xml")
+
         while True:
+            clock = time.perf_counter() * 5  #  measer time in 1/60 seconds
+            nsleep = int(clock) + 1 - clock  #  time till the next 1/60 
+            time.sleep(nsleep/5)
             ret, frame = cap.read()
             if ret:
                 rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
                 faces = face_cascade.detectMultiScale(rgbImage, scaleFactor=1.5, minNeighbors=5)
                 h1, w1, ch1 = rgbImage.shape
                 bytesPerLine = ch1 * w1
                 
                 for (x, y, w, h) in faces:
                     #Region of intrest = coordinates around the face
-                    roi_gray = rgbImage[(y-60):(y)+(h+40), (x-20):x+(w+20)]
+                    roi_gray = gray[(y-60):(y)+(h+40), (x-20):x+(w+20)]
                     #Color = blue
                     #Thickness
                     
@@ -57,9 +76,23 @@ class Thread(QThread):
                     stroke = 2    
                     cv2.rectangle(rgbImage, (x, y-60), (end_cord_x, end_cord_y), color, stroke)
 
-                convertToQtFormat = QImage(rgbImage.data, w1, h1, bytesPerLine, QImage.Format_RGB888)
-                p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
-                self.changePixmap.emit(p)
+                    if MainUI.checker:          
+                        #Save a picture as png
+                        cv2.imwrite("portrait.png", roi_gray)
+
+                        #Send to function
+                        sketch = self.Convert("portrait.png")
+
+                        #Overwrite the previous saved picture
+                        cv2.imwrite("portrait.png", sketch)
+
+                        #Stop recording
+                        cap.release()
+
+            convertToQtFormat = QImage(rgbImage.data, w1, h1, bytesPerLine, QImage.Format_RGB888)
+            p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
+            self.changePixmap.emit(p)
+
 
 
 class MainUI(QWidget):
@@ -133,9 +166,9 @@ class MainUI(QWidget):
         
         # init scene
         
-        th = Thread(self)
-        th.changePixmap.connect(self.setImage)
-        th.start() #gjort själv
+        self.th = Thread(self)
+        self.th.changePixmap.connect(self.setImage)
+        self.th.start() #gjort själv
 
         rect = QRectF( self.ui.graphicsView.rect())
         self.scene = QGraphicsScene(rect)
@@ -180,8 +213,10 @@ class MainUI(QWidget):
 
         self.ui.slideLaserDelay.setValue(25)
         
+    checker = False
     def robotPrint(self):
         if not self.robot.printing:
+            MainUI.checker = True
             self.ui.progressBar.setValue(0)
             self.robot.printPic()
             self.ui.progressBar.setVisible(True)
