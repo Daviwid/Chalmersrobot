@@ -50,9 +50,10 @@ class Thread(QThread):
         face_cascade = cv2.CascadeClassifier("mDrawGui\Cascades\data\haarcascade_frontalface_alt2.xml")
 
         while True:
-            clock = time.perf_counter() * 5  #  measer time in 1/60 seconds
+            fps = 5
+            clock = time.perf_counter() * fps  #  measer time in 1/60 seconds
             nsleep = int(clock) + 1 - clock  #  time till the next 1/60 
-            time.sleep(nsleep/5)
+            time.sleep(nsleep/fps)
             ret, frame = cap.read()
             if ret:
                 rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
