@@ -14,6 +14,7 @@ import HexDownloader
 import WireHelper
 import WireGui
 import WireGui_XY
+import pdb
 
 
 from PyQt5.QtGui import*
@@ -47,7 +48,7 @@ class Thread(QThread):
 
     def run(self):
         cap = cv2.VideoCapture(0)
-        face_cascade = cv2.CascadeClassifier("mDrawGui\Cascades\data\haarcascade_frontalface_alt2.xml")
+        face_cascade = cv2.CascadeClassifier("C:\\Users\Robin\Documents\Projekt\mDrawBot-master\mDrawGui\Cascades\data\haarcascade_frontalface_alt2.xml")
 
         while True:
             fps = 5
@@ -79,20 +80,21 @@ class Thread(QThread):
 
                     if MainUI.checker:          
                         #Save a picture as png
-                        cv2.imwrite("portrait.png", roi_gray)
+                        cv2.imwrite("portrait.bmp", roi_gray)
 
                         #Send to function
-                        sketch = self.Convert("portrait.png")
+                        sketch = self.Convert("portrait.bmp")
 
                         #Overwrite the previous saved picture
-                        cv2.imwrite("portrait.png", sketch)
+                        cv2.imwrite("portrait.bmp", sketch)
 
                         #Stop recording
                         cap.release()
-
+            pdb.set_trace = lambda: None
             convertToQtFormat = QImage(rgbImage.data, w1, h1, bytesPerLine, QImage.Format_RGB888)
             p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
             self.changePixmap.emit(p)
+            
 
 
 
@@ -218,6 +220,10 @@ class MainUI(QWidget):
     def robotPrint(self):
         if not self.robot.printing:
             MainUI.checker = True
+            bmpPath = 'portrait.bmp'
+            self.showConverter(bmpPath)
+            self.loadPic('portrait.bmp.svg')
+            #SvgConverter.SvgConverter(ParserGUI.Ui_Form,bmpPath,self.robotSig)
             self.ui.progressBar.setValue(0)
             self.robot.printPic()
             self.ui.progressBar.setVisible(True)
@@ -615,8 +621,8 @@ class MainUI(QWidget):
         if filetype=="svg":
             self.pic = SvgParser.SvgParser(filename,self.scene)
             self.ui.labelPic.setVisible(True)
-            self.picX0 = 300
-            self.picY0 = 200
+            self.picX0 = 100
+            self.picY0 = 220
             self.picWidth = 150
             self.picHeight = 150
             self.updatePic()
@@ -624,7 +630,7 @@ class MainUI(QWidget):
             self.showConverter(filename)
             
     def showConverter(self,bmpPath):
-        self.converter = SvgConverter.SvgConverter(ParserGUI.Ui_Form,bmpPath,self.robotSig)
+       self.converter = SvgConverter.SvgConverter(ParserGUI.Ui_Form,bmpPath,self.robotSig)
 
     def updatePic(self):
         x = self.picX0
